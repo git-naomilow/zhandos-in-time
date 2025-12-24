@@ -15,15 +15,15 @@ const App: React.FC = () => {
   const [hasReachedBottom, setHasReachedBottom] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
   // Handle window resizing to detect mobile state
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   // Control scrolling and reset "reached bottom" flag on new content
   useEffect(() => {
@@ -131,7 +131,7 @@ const App: React.FC = () => {
 
       {/* Header */}
       <header className="max-w-6xl w-full mb-8 text-center z-10 shrink-0">
-        <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 mb-2 tracking-tight">
+        <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 mb-2 tracking-tight uppercase">
           ЖАНДОС ВО ВРЕМЕНИ
         </h1>
         <div className="flex items-center justify-center gap-2 mono text-[10px] text-slate-500 tracking-[0.3em] uppercase">
@@ -154,7 +154,7 @@ const App: React.FC = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold">Лик Искателя</h2>
+              <h2 className="text-3xl font-bold uppercase">Лик Искателя</h2>
               <p className="text-slate-400 max-w-sm mx-auto">Для квантовой проекции нам необходимо лицо Жандоса. Мы встроим его в саму ткань истории.</p>
             </div>
             <input 
@@ -166,7 +166,7 @@ const App: React.FC = () => {
             />
             <button 
               onClick={() => fileInputRef.current?.click()}
-              className="px-10 py-5 bg-white text-black hover:bg-purple-50 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95 shadow-xl"
+              className="px-10 py-5 bg-white text-black hover:bg-purple-50 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95 shadow-xl uppercase tracking-wider"
             >
               ВЫБРАТЬ ФОТО
             </button>
@@ -181,7 +181,7 @@ const App: React.FC = () => {
                  {state.baseImage && <img src={state.baseImage} className="relative w-20 h-20 rounded-full object-cover border-2 border-white/20" alt="Zhandos" />}
                </div>
                <div>
-                 <h2 className="text-2xl font-bold italic">Протокол Перемещения</h2>
+                 <h2 className="text-2xl font-bold italic uppercase">Протокол Перемещения</h2>
                  <p className="text-sm text-slate-500 mono">Задайте пространственно-временные координаты</p>
                </div>
             </div>
@@ -206,7 +206,7 @@ const App: React.FC = () => {
             <div 
               ref={scrollRef}
               onScroll={handleScroll}
-              className="flex-1 overflow-y-auto px-4 md:px-8 space-y-12 pb-64 pt-4 scroll-smooth"
+              className="flex-1 overflow-y-auto px-4 md:px-8 space-y-12 pb-72 pt-4 scroll-smooth"
             >
               {state.history.map((chapter, idx) => (
                 <div key={idx} className="chapter-entry flex flex-col lg:flex-row gap-8 items-start animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -231,7 +231,7 @@ const App: React.FC = () => {
                         alt={`Scene ${idx}`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                        <span className="text-[10px] mono text-white/60 tracking-widest">VISUAL_LOG_{idx + 1}.PNG</span>
+                        <span className="text-[10px] mono text-white/60 tracking-widest uppercase">VISUAL_LOG_{idx + 1}.PNG</span>
                       </div>
                     </div>
                   </div>
@@ -256,24 +256,26 @@ const App: React.FC = () => {
 
             {/* Sticky Actions Container */}
             {showChoices && (
-              <div className="fixed bottom-0 left-0 right-0 p-4 md:p-8 z-20">
-                <div className="max-w-6xl mx-auto glass p-6 md:p-8 rounded-[2.5rem] border border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-full duration-500">
-                  <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="fixed bottom-0 left-0 right-0 p-4 md:p-8 z-30 pointer-events-none">
+                <div className="max-w-6xl mx-auto glass p-6 md:p-8 rounded-[2.5rem] border border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom-full duration-500 pointer-events-auto">
+                  <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                     <div className="hidden md:flex flex-col shrink-0">
                       <span className="text-[10px] mono text-purple-500 font-bold uppercase tracking-widest">Decision Required</span>
                       <span className="text-[10px] mono text-slate-500 uppercase tracking-widest">Temporal Node v.2</span>
                     </div>
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                       {state.history[state.history.length - 1].choices.map((choice, i) => (
                         <button
                           key={i}
                           onClick={() => handleChoice(choice)}
-                          className="text-left px-5 py-4 bg-white/5 hover:bg-purple-600/20 border border-white/5 rounded-2xl text-sm font-medium transition-all hover:border-purple-500/40 active:scale-95 group flex items-center gap-3"
+                          className="text-left px-5 py-5 bg-white/5 hover:bg-purple-600/20 border border-white/5 rounded-2xl text-sm font-medium transition-all hover:border-purple-500/40 active:scale-95 group flex items-start gap-4 min-h-[4rem]"
                         >
-                          <span className="w-6 h-6 flex items-center justify-center rounded-lg bg-purple-500/20 text-purple-400 text-[10px] group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                          <span className="w-6 h-6 shrink-0 flex items-center justify-center rounded-lg bg-purple-500/20 text-purple-400 text-[10px] group-hover:bg-purple-500 group-hover:text-white transition-colors mt-0.5">
                             {i + 1}
                           </span>
-                          <span className="flex-1 line-clamp-2">{choice}</span>
+                          <span className="flex-1 leading-normal whitespace-normal break-words">
+                            {choice}
+                          </span>
                         </button>
                       ))}
                     </div>
@@ -284,9 +286,9 @@ const App: React.FC = () => {
             
             {/* Scroll Indicator for Mobile */}
             {isMobile && !hasReachedBottom && state.history.length > 0 && !state.isGenerating && (
-              <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce z-10 opacity-60">
-                <span className="mono text-[8px] uppercase tracking-widest text-slate-400">Листайте вниз</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="fixed bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce z-20 opacity-80 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                <span className="mono text-[9px] uppercase tracking-widest text-purple-400 font-bold">Листайте вниз для выбора</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </div>
@@ -296,7 +298,7 @@ const App: React.FC = () => {
       </main>
 
       {/* Status Bar */}
-      <div className="fixed bottom-2 left-1/2 -translate-x-1/2 mono text-[8px] text-slate-700 tracking-widest pointer-events-none uppercase">
+      <div className="fixed bottom-2 left-1/2 -translate-x-1/2 mono text-[8px] text-slate-700 tracking-widest pointer-events-none uppercase z-0">
         Zhandos_Timeline_Simulator // Sync Status: Optimal // Core: Gemini 2.5
       </div>
     </div>
